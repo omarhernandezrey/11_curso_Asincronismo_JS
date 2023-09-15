@@ -10,5 +10,8 @@
     "javascript"
   ],
   "author": "Omar Hernandez Rey",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  }
 }

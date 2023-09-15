@@ -1,5 +1,5 @@
-// Importa el módulo 'xmlhttprequest' para usar la clase XMLHttpRequest
-const XMLHttpRequest = require('xmlhttprequest');
+// Importa la clase XMLHttpRequest del módulo 'xmlhttprequest'
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 // Definición de la URL base de la API
 const API = 'https://escuelajs.co/apiv1';
@@ -29,3 +29,29 @@ function fetchData(urlApi, callback) {
     // Envía la solicitud HTTP GET
     xhttp.send();
 }
+
+// Realiza tres solicitudes anidadas a la API utilizando callbacks
+fetchData(`${API}/products`, function (error1, data1) {
+    if (error1) {
+        console.error(error1);
+    } else {
+        // Si la primera solicitud fue exitosa, realiza una segunda solicitud anidada
+        fetchData(`${API}/products/${data1[0].id}`, function (error2, data2) {
+            if (error2) {
+                console.error(error2);
+            } else {
+                // Si la segunda solicitud fue exitosa, realiza una tercera solicitud anidada
+                fetchData(`${API}/categories/${data2?.category?.id}`, function (error3, data3) {
+                    if (error3) {
+                        console.error(error3);
+                    } else {
+                        // Si la tercera solicitud fue exitosa, imprime los datos obtenidos
+                        console.log(data1[0]);
+                        console.log(data2.title);
+                        console.log(data3.name);
+                    }
+                });
+            }
+        });
+    }
+});
